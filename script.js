@@ -64,6 +64,12 @@ function keyUpHandler(e)
 	}
 }
 
+function gameOver()
+{
+	alert("GAME OVER");
+    document.location.reload();
+}
+
 function drawPaddle()
 {
 	ctx.beginPath();
@@ -89,26 +95,26 @@ function draw()
 	drawBall(); // draws the ball
 	drawPaddle(); // draws the paddle
 
-	if (((x + dx) > (canvas.width - ballRadius)) || ((x + dx) < ballRadius))
+	if(((x + dx) > (canvas.width - ballRadius)) || ((x + dx) < ballRadius)) 
 	{
-		dx = -dx;
-	}
-	if ((y + dy) < ballRadius)
-	{
-		dy = -dy;
-	}
-	else if ((y + dy) > (canvas.height - ballRadius))
-	{
-		if ((x > paddleX) && (x < (paddleX + paddleWidth)))
-		{
-			dyx = -dy;
-		}
-		else
-		{
-			alert("Game Over");
-			document.location.reload();
-		}
-	}
+        dx = -dx;
+    }
+
+    if((y + dy) < ballRadius) 
+    {
+        dy = -dy;
+    }
+    else if ((y + dy) > (canvas.height - ballRadius)) 
+    {
+        if ((x > paddleX) && (x < (paddleX + paddleWidth))) 
+        {
+            dy = -dy;
+        }
+        else 
+        {
+            gameOver();
+        }
+    }
 
 	// Move Paddle
 	if ((rightPressed) && (paddleX < (canvas.width - paddleWidth))) 
