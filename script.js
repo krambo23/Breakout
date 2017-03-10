@@ -21,12 +21,57 @@ ctx.stroke();
 ctx.closePath();
 */
 
+// Ball
 var x = canvas.width / 2;
 var y = canvas.height - 30;
 var dx = 2;
 var dy = -2;
 var ballRadius = 10;
 var ballColor = "red";
+
+// Paddle
+var paddleHeight = 10;
+var paddleWidth = 75;
+var paddleX = (canvas.width - paddleWidth) / 2;
+var rightPressed = false;
+var leftPressed = false;
+
+// Detect Keypresses
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+
+function keyDownHandler(e)
+{
+	if (e.keyCode == 39)
+	{
+		rightPressed = true;
+	}
+	else if (e.keyCode == 37)
+	{
+		leftPressed = true;
+	}
+}
+
+function keyUpHandler(e)
+{
+	if (e.keyCode == 39)
+	{
+		rightPressed = false;
+	}
+	else if (e.keyCode == 37)
+	{
+		leftPressed = false;
+	}
+}
+
+function drawPaddle()
+{
+	ctx.beginPath();
+	ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+	ctx.fillStyle = "red";
+	ctx.fill();
+	ctx.closePath();
+}
 
 function drawBall()
 {
@@ -42,6 +87,7 @@ function draw()
 {
 	ctx.clearRect(0, 0, canvas.width, canvas.height); // Clears the canvas
 	drawBall(); // draws the ball
+	drawPaddle(); // draws the paddle
 
 	if ((x + dx) > (canvas.width - ballRadius) || (x + dx) < ballRadius)
 	{
@@ -57,6 +103,16 @@ function draw()
 
 	x += dx; // increments x by dx
 	y += dy; // increments y by dy
+
+	// Move Paddle
+	if ((rightPressed) && (paddleX < (canvas.width - paddleWidth))) 
+	{
+    	paddleX += 7;
+    }
+	else if ((leftPressed) && (paddleX > 0)) 
+	{
+	    paddleX -= 7;
+	}
 }
 
 setInterval(draw, 10); // executes draw() each 10 ms
