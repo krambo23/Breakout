@@ -89,20 +89,26 @@ function draw()
 	drawBall(); // draws the ball
 	drawPaddle(); // draws the paddle
 
-	if ((x + dx) > (canvas.width - ballRadius) || (x + dx) < ballRadius)
+	if (((x + dx) > (canvas.width - ballRadius)) || ((x + dx) < ballRadius))
 	{
 		dx = -dx;
-		ballColor = "blue";
 	}
-
-	if (((y + dy) > (canvas.height - ballRadius) || (y + dy) < ballRadius))
+	if ((y + dy) < ballRadius)
 	{
 		dy = -dy;
-		ballColor = "green";
 	}
-
-	x += dx; // increments x by dx
-	y += dy; // increments y by dy
+	else if ((y + dy) > (canvas.height - ballRadius))
+	{
+		if ((x > paddleX) && (x < (paddleX + paddleWidth)))
+		{
+			dyx = -dy;
+		}
+		else
+		{
+			alert("Game Over");
+			document.location.reload();
+		}
+	}
 
 	// Move Paddle
 	if ((rightPressed) && (paddleX < (canvas.width - paddleWidth))) 
@@ -113,6 +119,9 @@ function draw()
 	{
 	    paddleX -= 7;
 	}
+
+	x += dx; // increments x by dx
+	y += dy; // increments y by dy
 }
 
 setInterval(draw, 10); // executes draw() each 10 ms
